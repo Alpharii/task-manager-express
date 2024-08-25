@@ -3,6 +3,8 @@ import tasks from './routes/tasks.js'
 import connectDB from "./db/connect.js"
 import dotenv from "dotenv" 
 import cors from "cors"
+import notFound from "./middleware/not-found.js"
+import errorHandler from "./middleware/error-handler.js"
 
 dotenv.config()
 
@@ -17,13 +19,10 @@ app.use(express.urlencoded({extended: true}))
 app.use(cors())
 
 
+//routes
 app.use('/api/v1/tasks', tasks)
-
-// app.get ('api/v1/tasks')        --get all tasks
-// app.post ('api/v1/tasks')       --create a task
-// app.get ('api/v1/tasks/:id')    --get single tak
-// app.patch ('api/v1/tasks/:id')  --update task
-// app.delete ('api/v1/tasks/:id') --delete task
+app.use(notFound)
+app.use(errorHandler)
 
 const start = async () => {
     try{
